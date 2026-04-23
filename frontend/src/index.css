@@ -31,3 +31,17 @@ button {
 .btn-secondary {
   @apply bg-white text-slate-700 border border-slate-200 hover:bg-slate-50 shadow-sm;
 }
+
+@keyframes shake {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-5px); }
+  75% { transform: translateX(5px); }
+}
+
+.animate-shake {
+  animation: shake 0.2s ease-in-out 0s 2;
+}
+
+::selection {
+  @apply bg-[#FF6B6B] text-white;
+}

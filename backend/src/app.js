@@ -9,9 +9,7 @@ app.use(cors());
 app.use(express.json());
 
 // Routes
-// app.use('/api/auth', require('./features/auth/auth.routes'));
-// app.use('/api/jobs', require('./features/jobs/jobs.routes'));
-// app.use('/api/applications', require('./features/applications/applications.routes'));
+app.use('/api/auth', require('./features/auth/auth.routes'));
 
 // Health check
 app.get('/health', (req, res) => res.status(200).json({ status: 'ok' }));

@@ -1,4 +1,4 @@
-# Job Board Platform - Detailed Development Plan
+# VibeHire - Detailed Development Plan
 
 This document outlines the end-to-end engineering roadmap for the Job Board Platform, emphasizing the polyglot database strategy and raw SQL discipline.
 

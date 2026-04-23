@@ -1,4 +1,4 @@
-# JOB-BOARD PLATFORM
+# VibeHire | Modern Job Board
 
 A full-stack job board application built with a polyglot database architecture.
 
