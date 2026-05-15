@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route, Link } from 'react-router-dom';
+import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { AuthProvider } from './context/AuthContext';
 import ProtectedRoute from './components/ProtectedRoute';
@@ -44,16 +44,22 @@ export default function App() {
                 <Route path="/jobs/:id" element={<JobDetail />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/register" element={<Register />} />
-                <Route path="/mine" element={
-                  <ProtectedRoute role="seeker">
-                    <MyApplications />
-                  </ProtectedRoute>
-                } />
-                <Route path="/dashboard" element={
-                  <ProtectedRoute role="recruiter">
-                    <Dashboard />
-                  </ProtectedRoute>
-                } />
+                <Route
+                  path="/mine"
+                  element={(
+                    <ProtectedRoute role="seeker">
+                      <MyApplications />
+                    </ProtectedRoute>
+                  )}
+                />
+                <Route
+                  path="/dashboard"
+                  element={(
+                    <ProtectedRoute role="recruiter">
+                      <Dashboard />
+                    </ProtectedRoute>
+                  )}
+                />
               </Routes>
             </main>
           </div>

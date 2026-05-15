@@ -1,27 +1,38 @@
-import { useState } from 'react';
-import { useNavigate, Link } from 'react-router-dom';
-import { useAuth } from '../context/AuthContext';
+import { useState, type FormEvent } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
+import { AxiosError } from 'axios';
+import { useAuth } from '../context/useAuth';
 import client from '../api/client';
 import heroImg from '../assets/hero.png';
-import logoImg from '../assets/logo.png';
+import type { AuthResponse } from '../types/auth';
+
+interface LoginForm {
+  email: string;
+  password: string;
+}
 
 export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
-  const [form, setForm] = useState({ email: '', password: '' });
+  const [form, setForm] = useState<LoginForm>({ email: '', password: '' });
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
 
-  const handleSubmit = async (e) => {
+  const handleSubmit = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setLoading(true);
     setError('');
+
     try {
-      const { data } = await client.post('/auth/login', form);
+      const { data } = await client.post<AuthResponse>('/auth/login', form);
       login(data.user, data.token);
       navigate('/');
     } catch (err) {
-      setError(err.response?.data?.error || 'Login failed. Please check your credentials.');
+      const message = err instanceof AxiosError
+        ? err.response?.data?.error
+        : undefined;
+
+      setError(message || 'Login failed. Please check your credentials.');
     } finally {
       setLoading(false);
     }
@@ -30,21 +41,18 @@ export default function Login() {
   return (
     <div className="w-full flex items-center justify-center p-4">
       <div className="max-w-5xl w-full bg-white rounded-[2.5rem] shadow-2xl overflow-hidden flex flex-col md:flex-row relative">
-        
-        {/* Left Side: Illustration */}
         <div className="md:w-1/2 bg-[#FFEFED] relative overflow-hidden hidden md:block">
-          <img 
-            src={heroImg} 
-            alt="Hero Illustration" 
+          <img
+            src={heroImg}
+            alt="Hero Illustration"
             className="w-full h-full object-cover relative z-10"
           />
         </div>
 
-        {/* Right Side: Form */}
         <div className="md:w-1/2 p-8 md:p-12 flex flex-col justify-center">
           <div className="max-w-sm mx-auto w-full">
             <h1 className="text-3xl font-bold text-slate-800 mb-6 text-center md:text-left">Login</h1>
-            
+
             {error && (
               <div className="mb-4 p-3 bg-red-50 text-red-600 rounded-xl text-sm border border-red-100 animate-shake">
                 {error}
@@ -66,7 +74,7 @@ export default function Login() {
                     className="pl-12 !bg-slate-50 border-slate-200 focus:border-[#FF6B6B] focus:ring-[#FF6B6B]/20 py-2.5"
                     placeholder="example@gmail.com"
                     value={form.email}
-                    onChange={e => setForm({ ...form, email: e.target.value })}
+                    onChange={(e) => setForm({ ...form, email: e.target.value })}
                   />
                 </div>
               </div>
@@ -86,11 +94,11 @@ export default function Login() {
                     className="pl-12 !bg-slate-50 border-slate-200 focus:border-[#FF6B6B] focus:ring-[#FF6B6B]/20 py-2.5"
                     placeholder="********"
                     value={form.password}
-                    onChange={e => setForm({ ...form, password: e.target.value })}
+                    onChange={(e) => setForm({ ...form, password: e.target.value })}
                   />
                 </div>
                 <div className="text-right mt-1.5">
-                  <Link to="/forgot-password" size="sm" className="text-xs font-medium text-[#FF6B6B] hover:underline">
+                  <Link to="/forgot-password" className="text-xs font-medium text-[#FF6B6B] hover:underline">
                     Forgot Password?
                   </Link>
                 </div>

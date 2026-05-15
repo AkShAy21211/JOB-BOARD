@@ -10,6 +10,7 @@ dist/
 # Build
 dist/
 build/
+*.tsbuildinfo
 .next/
 .turbo/
 

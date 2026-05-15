@@ -1,16 +1,13 @@
-require('dotenv').config();
-const app = require('./src/app');
-const connectMongo = require('./src/config/mongo');
+import 'dotenv/config';
+import app from './app';
+import connectMongo from './config/mongo';
 
 const PORT = process.env.PORT || 3000;
 
 const startServer = async () => {
   try {
-    // Connect to MongoDB
     await connectMongo();
-    
-    // Connect to Postgres happens lazily via pool, but we can test it here if needed
-    
+
     app.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
     });
@@ -19,4 +16,4 @@ const startServer = async () => {
   }
 };
 
-startServer();
+void startServer();
